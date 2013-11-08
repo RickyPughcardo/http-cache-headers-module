@@ -1,0 +1,36 @@
+<?php 
+
+/**
+ *Implements hook_schema().
+*/
+function http_cache_headers_schema() {
+  $schema['http_cache_headers'] = array(  //main schema array
+      'description' => t('Stores paths to add cache-headers to.'), 
+        'fields' => array(
+          'hchid' => array(
+          	'type' => 'serial',
+          	'unsigned' => TRUE,
+          	'not null' => TRUE,
+          	'description' => t("Primary key: A Unique ID for each stored Path."),
+          	),
+          'path' => array(
+          	'type' => 'varchar',
+          	'length' => '255',
+          	'not null' => TRUE,
+          	'description' => t('A path to add cache headers to.'),
+          	),
+          'ttl' => array(
+          	'type' => 'varchar',
+          	'length' => '255',
+          	'not null' => TRUE,
+          	'description' => t('Cache time to live'),
+          	),
+        ),
+        'primary key' => array('hchid'),
+        'indexes' => array(
+        	'path' => array('path'),
+        	)        
+        );
+  return $schema;
+}
+

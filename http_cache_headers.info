@@ -1,0 +1,14 @@
+name = HTTP cache headers
+description = Allows the addition of cache-headers to specific paths.
+package = Pantheon
+core = 7.x
+files[] = http_cache_headers.module
+files[] = admin/http_cache_headers_admin.module
+configure = admin/config/development/http_cache_headers/settings
+
+; Information added by drupal.org packaging script on 2013-09-03
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "http cache headers"
+datestamp = "1378213533"
+

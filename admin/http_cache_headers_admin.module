@@ -1,0 +1,83 @@
+<?php
+
+/**
+ * @file
+ * This is the Form API Tutorial from the handbook.
+ *
+ * It goes through 10 form examples of increasing complexity to demonstrate
+ * Drupal 7 Form API.
+ *
+ * Links are provided inline for the related handbook pages.
+ *
+ * @see http://drupal.org/node/262422
+ */
+
+/**
+ * Main Form tutorial page.
+ *
+ * @see form_example_tutorial_7()
+
+ * @ingroup form_example
+ */
+
+//////////////// Tutorial Example 7 //////////////////////
+
+/**
+ * Example 7: With a submit handler.
+ *
+ * From the handbook page:
+ * http://drupal.org/node/717740
+ *
+ * @see form_example_tutorial_7_validate()
+ * @see form_example_tutorial_7_submit()
+ * @ingroup form_example
+ */
+function http_cache_headers_admin($form, &$form_state) {
+
+  $form['description'] = array(
+    '#type' => 'item',
+    '#title' => t('Available content types'),
+    '#description' => t('Select content types that you would like to add cache control options to.'),
+  );
+
+  foreach (node_type_get_types() as $node_type => $type) {
+      $form['http_cache_headers_admin']['content_types' . $type->type] = array(
+        '#type' => 'checkbox',
+        '#title' => $type->name,
+        '#default_value' => variable_get('http_cache_headers_enabled_content_types' . $type->type, FALSE),
+      );
+  }
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Submit',
+  );
+  return $form;
+}
+
+/**
+ * Validation function for form_example_tutorial_7().
+ */
+function http_cache_headers_admin_validate($form, &$form_state) {
+ print_r($form_state);
+
+return FALSE;
+}
+
+/**
+ * Submit function for form_example_tutorial_7().
+ *
+ * Adds a submit handler/function to our form to send a successful
+ * completion message to the screen.
+ */
+function http_cache_headers_admin_submit($form, &$form_state) {
+  print_r($form);
+
+  $presetvar = variable_get('http_cache_headers_enabled_content_types', 'hello');
+ 
+  drupal_set_message(t('@presetvar http cache header content types have been saved.',  
+  array('@presetvar' => $presetvar)));
+  variable_set('hch_set_content_types', $form_state['http_cache_headers_admin']['content_types']);
+}
+
+

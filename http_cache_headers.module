@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * @file
+ * Examples demonstrating the Drupal Form API.
+ */
+
+/**
+ * @defgroup form_example Example: Form API
+ * @ingroup examples
+ * @{
+ * Examples demonstrating the Drupal Form API.
+ *
+ * The Form Example module is a part of the Examples for Developers Project
+ * and provides various Drupal Form API Examples. You can download and
+ * experiment with this code at the
+ * @link http://drupal.org/project/examples Examples for Developers project page. @endlink
+ */
+
+/**
+ * Implements hook_menu().
+ *
+ * Here we set up the URLs (menu entries) for the
+ * form examples. Note that most of the menu items
+ * have page callbacks and page arguments set, with
+ * page arguments set to be functions in external files.
+ */
+
+function http_cache_headers_menu() {
+  $items = array();
+
+  $items['admin/config/development/performance/http_cache_headers'] = array(
+    'title' => 'HTTP Cache Headers Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('http_cache_headers_admin'),
+    'access callback' => TRUE,
+    'description' => 'Add http cache headers to specific paths.',
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'admin/http_cache_headers_admin.module',
+  );
+/*added to test retrieval of node type
+  print_r(node_type_get_names());
+  exit();
+*/
+  return $items;
+}
+
+function form_example_form_node_form_alter(&$form, $form_state) {
+  // if you are targeting a specific content type then 
+  // you can access the type:
+  $type = $form['#node']->type; 
+ // Then
+ //if ($type == 'my_content_type') {
+  //  use a contact settings for the sake of this example
+   $form['http_cache_headers'] = array(
+    '#type' => 'fieldset', 
+    '#title' => t('HTTP Cache Headers'), 
+    '#weight' => 100, 
+    '#collapsible' => TRUE, 
+    '#collapsed' => FALSE,
+    '#group' => 'additional_settings',
+   );
+   // add path field
+   $form['http_cache_headers']['path'] = array(
+     '#type' =>'textfield', 
+     '#title' => t('Path'),
+     '#description' => t('Specify path to add http headers.'),
+     '#required' => TRUE, 
+   );
+   //add ttl field
+   $form['http_cache_headers']['ttl'] = array(
+     '#type' =>'textfield', 
+     '#title' => t('Time to Live (TTL)'),
+     '#description' => t('Specify the time that you would like the cached path to expire.'),
+     '#required' => TRUE, 
+   );
+  //} 
+}
+
+function http_cache_headers_submit($form, &$form_state) {
+  drupal_set_message(t('Headers have been added to the path.'));
+ /* print_r($form_state);
+  return FALSE;
+  variable_set('http_cache_headers_path', t($form_state['http_cache_headers']['path']));
+  */
+}
+
+/*insert a new recorD:
+$table = 'http_cache_headers';
+$record = new stdClass();
+$record->name = t
+*/
