@@ -59,7 +59,7 @@ function http_cache_headers_admin($form, &$form_state) {
  * Validation function for form_example_tutorial_7().
  */
 function http_cache_headers_admin_validate($form, &$form_state) {
- print_r($form_state);
+/* print_r($form_state);*/
 
 return FALSE;
 }
